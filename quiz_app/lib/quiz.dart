@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
-class Quiz extends StatelessWidget {
-  const Quiz({super.key});
+import 'package:quiz_app/question_screen.dart';
+import 'package:quiz_app/start_screen.dart';
 
+class Quiz extends StatefulWidget {
+  Quiz({super.key});
+
+State<StatefulWidget> createState() {
+    return QuizState();
+  }
+}
+
+class QuizState extends State<Quiz> {
+  var activeScreen = 'start-screen';
+
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'question-screen'; 
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    Widget currentScreen = startScreen(switchScreen);
+
+  if (activeScreen == 'question-screen') {
+  currentScreen = QuestionScreen();
+  }
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -14,35 +35,8 @@ class Quiz extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
           ),
-          child: Center(
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/quiz-logo.png',width: 200, height: 200,),
-            const SizedBox(height: 60),
-            const Text('Flutter Quiz App',style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),),
-            
-            const SizedBox(height: 40),
-             OutlinedButton.icon(
-              onPressed: () {
-                // Navigate to the quiz page
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Color.fromARGB(255, 239, 226, 226), width: 2),
-              ),
-              icon: const Icon(Icons.arrow_right_alt, color: Colors.white),
-              label: const Text('Start Quiz'),
-              iconAlignment: IconAlignment.end,
-            ),
-          ],
-        ),
-      ),
+          
+      child:currentScreen,
     )
     )
     );
